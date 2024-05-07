@@ -9,14 +9,8 @@ describe('Register tests in isolation', () => {
 
     it('should successfully register', () => {
         const user = getRandomUser()
-        cy.intercept('POST', '**/users/signup', (req) => {
-            req.reply({
-                statusCode: 201,
-                body: {
-                    token: 'fakeToken'
-                }
-            })
-        })
+        registerMocks.mockSucces()
+
         cy.get('[name=username]').type(user.username)
         cy.get('[name=password]').type(user.password)
         cy.get('[name=firstName]').type(user.firstName)

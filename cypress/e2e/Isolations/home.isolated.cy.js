@@ -8,7 +8,7 @@ describe('Home tests in isolation', () => {
         const user = getFakeLoginResponse()
         cy.setCookie('token', user.token)
         localStorage.setItem('user', JSON.stringify(user))
-        cy.intercept('GET', '**/users', { fixture: 'users.json' })
+        getUsersMocks.mockUsers()
     })
 
     it('should display home page', () => {

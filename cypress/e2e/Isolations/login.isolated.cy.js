@@ -1,6 +1,8 @@
 /// <reference types="cypress" />
 
-import { getFakeLoginResponse } from "../generators/userGenerator"
+import { getFakeLoginResponse } from "../../generators/userGenerator"
+import { getUsersMocks } from "../../mocks/getUsers"
+import { loginMocks } from "../../mocks/postSignIn"
 
 describe('Login tests in isolation', () => {
     beforeEach(() => {
@@ -9,13 +11,9 @@ describe('Login tests in isolation', () => {
 
     it('should successfully login', () => {
         const fakeLoginResponse = getFakeLoginResponse()
+        loginMocks.mockSuccess(fakeLoginResponse)
+        getUsersMocks.mockUsers()
 
-        cy.intercept('POST', '**/users/signin', (req) => {
-            req.reply({
-                statusCode: 200,
-                body: fakeLoginResponse
-            })
-        })
         cy.intercept('GET', '**/users', { fixture: 'users.json' })
 
         cy.get('[name=username]').type(fakeLoginResponse.username)
@@ -27,19 +25,8 @@ describe('Login tests in isolation', () => {
 
     it('should fail to login', () => {
         const message = "Invalid username/password supplied"
-        cy.intercept('POST', '**/users/signin', (req) => {
-            req.reply({
-                statusCode: 422,
-                body: {
-                    "timestamp": "2024-05-06T15:51:07.944+00:00",
-                    "status": 422,
-                    "error": "Unprocessable Entity",
-                    message: message,
-                    "path": "/users/signin"
-                }
-            })
-        })
-        cy.intercept('GET', '**/users', { fixture: 'users.json' })
+        loginMocks.mockFailure(message)
+      
 
         cy.get('[name=username]').type('wrong')
         cy.get('[name=password]').type('password')
@@ -47,4 +34,6 @@ describe('Login tests in isolation', () => {
 
         cy.get('.alert-danger').should('have.text', message)
     })
+
 })
+
