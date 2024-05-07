@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { getRandomUser } from "./generators/userGenerator"
+import { getFakeLoginResponse } from "./generators/userGenerator"
 
 describe('login security test', () => {
 
