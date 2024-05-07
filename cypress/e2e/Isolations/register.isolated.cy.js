@@ -1,26 +1,27 @@
 /// <reference types="cypress" />
 
+
+import { alerts } from "../../components/alert"
 import { getRandomUser } from "../../generators/userGenerator"
+import { registerMocks } from "../../mocks/postSignUp"
+import { registerPage } from "../../pages/registerPage"
 
 describe('Register tests in isolation', () => {
     beforeEach(() => {
-        cy.visit('http://localhost:8081/register')
+        cy.visit('/register')
     })
 
     it('should successfully register', () => {
+        //given
         const user = getRandomUser()
-        registerMocks.mockSucces()
+        registerMocks.mockSuccess()
 
-        cy.get('[name=username]').type(user.username)
-        cy.get('[name=password]').type(user.password)
-        cy.get('[name=firstName]').type(user.firstName)
-        cy.get('[name=lastName]').type(user.lastName)
-        cy.get('[name=email]').type(user.email)
-        cy.get('.btn-primary').click()
+        //when
+        registerPage.attemptRegister(user)
 
-        cy.get('.alert').should('contain.text', 'Registration successful')
+        //then
+        alerts.verifySuccess()
         cy.url().should('contain', '/login')
     })
 
 })
-

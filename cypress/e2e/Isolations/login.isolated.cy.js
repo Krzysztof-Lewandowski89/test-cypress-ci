@@ -14,8 +14,6 @@ describe('Login tests in isolation', () => {
         loginMocks.mockSuccess(fakeLoginResponse)
         getUsersMocks.mockUsers()
 
-        cy.intercept('GET', '**/users', { fixture: 'users.json' })
-
         cy.get('[name=username]').type(fakeLoginResponse.username)
         cy.get('[name=password]').type('password')
         cy.get('.btn-primary').click()
@@ -26,7 +24,6 @@ describe('Login tests in isolation', () => {
     it('should fail to login', () => {
         const message = "Invalid username/password supplied"
         loginMocks.mockFailure(message)
-      
 
         cy.get('[name=username]').type('wrong')
         cy.get('[name=password]').type('password')
@@ -36,4 +33,3 @@ describe('Login tests in isolation', () => {
     })
 
 })
-
