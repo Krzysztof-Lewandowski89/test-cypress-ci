@@ -1,6 +1,11 @@
-export const registerPage = {
+import { User } from "../types/user"
 
-    attemptRegister: (user) => {
+export const registerPage = {
+    selectors: {
+        loginFieldCss: '[name=username]'
+    },
+
+    attemptRegister: (user: User) => {
         cy.get('[name=username]').type(user.username)
         cy.get('[name=password]').type(user.password)
         cy.get('[name=firstName]').type(user.firstName)
@@ -9,3 +14,4 @@ export const registerPage = {
         cy.get('.btn-primary').click()
     }
 }
+

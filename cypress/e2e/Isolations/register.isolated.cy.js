@@ -1,8 +1,7 @@
 /// <reference types="cypress" />
 
-
-import { alerts } from "../../components/alert"
-import { getRandomUser } from "../../generators/userGenerator"
+import { alerts } from "../../components/alerts"
+import { getRandomUser } from "../generators/userGenerator"
 import { registerMocks } from "../../mocks/postSignUp"
 import { registerPage } from "../../pages/registerPage"
 
@@ -12,15 +11,15 @@ describe('Register tests in isolation', () => {
     })
 
     it('should successfully register', () => {
-        //given
+        // given
         const user = getRandomUser()
         registerMocks.mockSuccess()
 
-        //when
+        // when
         registerPage.attemptRegister(user)
 
-        //then
-        alerts.verifySuccess()
+        // then
+        alerts.verifySuccess('Registration successful')
         cy.url().should('contain', '/login')
     })
 
