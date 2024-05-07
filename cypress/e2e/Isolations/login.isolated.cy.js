@@ -1,6 +1,6 @@
 /// <reference types="cypress" />
 
-import { getFakeLoginResponse } from "./generators/userGenerator"
+import { getFakeLoginResponse } from "../generators/userGenerator"
 
 describe('Login tests in isolation', () => {
     beforeEach(() => {
